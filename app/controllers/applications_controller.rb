@@ -12,7 +12,6 @@ class ApplicationsController < ApplicationController
     end
 
     def create 
-        # require 'pry' ; binding.pry
         application = Application.new(application_params)
         if application.save
             redirect_to "/applications/#{application.id}"
