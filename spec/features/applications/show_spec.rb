@@ -139,4 +139,22 @@ RSpec.describe 'Application Show page' do
         expect(page).to_not have_content("Lobster")
       end
     end
+
+  # 9. Case Insensitive Matches for Pet Names
+    it 'shows case insensitive matches for pet names' do
+      # As a visitor
+      # When I visit an application show page
+      # And I search for Pets by name
+      visit "applications/#{@app_2.id}"
+      within '.application' do
+        fill_in "search", with: "lUc"
+        click_button("Find pet")
+      end
+      # Then my search is case insensitive
+      within '.pets_found' do
+        expect(page).to have_content("Lucille Bald")
+        expect(page).to have_content("Lucy")
+        expect(page).to_not have_content("Lobster")
+      end
+    end
 end
