@@ -11,15 +11,29 @@
     <p><%= link_to pet.name, "/pets/#{pet.id}" %></p>
 <% end %>
 
-<h2>Add a Pet to this Application</h2>
-<p>Search for an specific Pet:</p>
+<section class='submission'>
+  <h2> Submit this Application</h2>
+  <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |f| %>
+    <%= f.label :description, "Why would you make a good owner for these pets?" %>
+    <%= f.text_field :description %>
+    <%= f.submit "Submit" %>
+  <% end %>
+</section>
 
-<%= form_with url: "/applications/#{@application.id}", method: :get  do |f| %>
-  <%= f.label :search %>
-  <%= f.text_field :search %>
+<% if @application.status == "In Progress" %>
+  <section class='application'>
+    <h2>Add a Pet to this Application</h2>
+    <p>Search for an specific Pet:</p>
 
-  <%= f.submit "Submit"%>
+    <%= form_with url: "/applications/#{@application.id}", method: :get  do |f| %>
+      <%= f.label :search %>
+      <%= f.text_field :search %>
+
+      <%= f.submit "Find pet"%>
+    <% end %>
+  </section>
 <% end %>
+
 
 <section class='pets_found'>
   <% if @pets_found.present? %>

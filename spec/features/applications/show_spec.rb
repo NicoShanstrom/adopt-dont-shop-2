@@ -40,13 +40,7 @@ RSpec.describe 'Application Show page' do
   it "Searching for Pets for an Application" do
     # As a visitor
     # When I visit an application's show page
-    visit "/applications/#{@app_2.id}"
-    expect(page).to have_content("Name: Luis")
-    expect(page).to have_content("Street address: 12907 conquistador loop")
-    expect(page).to have_content("City: Tampa")
-    expect(page).to have_content("State: Florida")
-    expect(page).to have_content("Zip code: 34610")
-    expect(page).to have_content("Description: I have a house")
+    visit "/applications/#{@app_1.id}"
     # And that application has not been submitted,
     # Then I see a section on the page to "Add a Pet to this Application"
     expect(page).to have_content("Add a Pet to this Application")
@@ -55,9 +49,9 @@ RSpec.describe 'Application Show page' do
     # When I fill in this field with a Pet's name
     fill_in "search", with: "Lucille Bald"
     # And I click submit,
-    click_button("Submit")
+    click_button("Find pet")
     # Then I am taken back to the application show page
-    expect(current_path).to eq("/applications/#{@app_2.id}")
+    expect(current_path).to eq("/applications/#{@app_1.id}")
     # And under the search bar I see any Pet whose name matches my search
     within '.pets_found' do
       expect(page).to have_content("Lucille Bald")
@@ -65,15 +59,15 @@ RSpec.describe 'Application Show page' do
   end
 
   # 5. Add a Pet to an Application
-  it "" do
+  it "can search for pets and have an adopt pet button" do
     # As a visitor
     # When I visit an application's show page
-    visit "/applications/#{@app_2.id}"
+    visit "/applications/#{@app_1.id}"
     # And I search for a Pet by name
     expect(page).to have_content("Add a Pet to this Application")
     fill_in "search", with: "Lucille Bald"
     # And I see the names Pets that match my search
-    click_button("Submit")
+    click_button("Find pet")
     # Then next to each Pet's name I see a button to "Adopt this Pet"
     within '.pets_found' do
       expect(page).to have_content(@pet_1.name)
@@ -83,8 +77,35 @@ RSpec.describe 'Application Show page' do
       click_button("Adopt this Pet")
     end
     # Then I am taken back to the application show page
-    expect(current_path).to eq("/applications/#{@app_2.id}")
+    expect(current_path).to eq("/applications/#{@app_1.id}")
     # And I see the Pet I want to adopt listed on this application
     expect(page).to have_content(@pet_1.name)
+  end
+
+  # 6. Submit an Application
+  it "has a form where you can update the description and the status" do
+    # As a visitor
+    # When I visit an application's show page
+    visit "/applications/#{@app_1.id}"
+    # And I have added one or more pets to the application
+    expect(page).to have_content(@pet_1.name)
+    within '.submission' do
+      # Then I see a section to submit my application
+      expect(page).to have_content("Submit this Application")
+      # And in that section I see an input to enter why I would make a good owner for these pet(s)
+      expect(page).to have_content("Why would you make a good owner for these pets?")
+      # When I fill in that input
+      fill_in "description", with: "I love dogs"
+      # And I click a button to submit this application
+      click_button("Submit")
+    end
+    # Then I am taken back to the application's show page
+    expect(current_path).to eq("/applications/#{@app_1.id}")
+    # And I see an indicator that the application is "Pending"
+    expect(page).to have_content("Status: Pending")
+    # And I see all the pets that I want to adopt
+    expect(page).to have_content(@pet_1.name)
+    # And I do not see a section to add more pets to this application
+    expect(page).to_not have_css(".application")
   end
 end
