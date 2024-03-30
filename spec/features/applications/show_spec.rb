@@ -157,4 +157,5 @@ RSpec.describe 'Application Show page' do
         expect(page).to_not have_content("Lobster")
       end
     end
+    
 end

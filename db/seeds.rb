@@ -7,6 +7,8 @@
 #   Character.create(name: "Luke", movie: movies.first)
 @app_1 = Application.create!(name: "Nico", street_address: "398 sand hill rd", city: "Asheville", state: "North Carolina", zip_code: "28806", description: "I have a house", status: "In Progress" )
 @shelter_1 = Shelter.create(name: "Aurora shelter", city: "Aurora, CO", foster_program: false, rank: 9)
+@shelter_2 = Shelter.create!(name: "Miami Shelter", city: "Miami, FL", foster_program: true, rank: 3)
+@shelter_3 = Shelter.create!(name: "Land-O-Lakes Shelter", city: "Tampa, FL", foster_program: true, rank: 3)
 
 @pet_1 = Pet.create(adoptable: true, age: 1, breed: "sphynx", name: "Lucille Bald", shelter_id: @shelter_1.id)
 @pet_2 = Pet.create(adoptable: true, age: 3, breed: "doberman", name: "Lobster", shelter_id: @shelter_1.id)
