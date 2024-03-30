@@ -9,10 +9,13 @@ class ApplicationsController < ApplicationController
 
     def create 
         # require 'pry' ; binding.pry
-        
         application = Application.new(application_params)
-        application.save
-        redirect_to "/applications/#{application.id}"
+        if application.save
+            redirect_to "/applications/#{application.id}"
+        else 
+            flash[:error] = "Fill in the blanks"
+            redirect_to "/applications/new"
+        end
     end
 
     private 
