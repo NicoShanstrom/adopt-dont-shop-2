@@ -3,12 +3,13 @@ require "rails_helper"
 RSpec.describe 'Application Show page' do
   before(:each) do
     @app_1 = Application.create!(name: "Nico", street_address: "398 sand hill rd", city: "Asheville", state: "North Carolina", zip_code: "28806", description: "I have a house", status: "In Progress" )
+    @app_2 = Application.create!(name: "Luis", street_address: "12907 conquistador loop", city: "Tampa", state: "Florida", zip_code: "34610", description: " I have a house", status: "In Progress")
     @shelter_1 = Shelter.create!(name: "Aurora shelter", city: "Aurora, CO", foster_program: false, rank: 9)
     @pet_1 = Pet.create!(adoptable: true, age: 1, breed: "sphynx", name: "Lucille Bald", shelter_id: @shelter_1.id)
     @pet_2 = Pet.create!(adoptable: true, age: 3, breed: "doberman", name: "Lobster", shelter_id: @shelter_1.id)
+    @pet_3 = Pet.create!(adoptable: true, age: 3, breed: "doberman", name: "Lucy", shelter_id: @shelter_1.id)
     
     @pet_app_1 = PetApplication.create!(application_id: @app_1.id, pet_id: @pet_1.id)
-    @app_2 = Application.create!(name: "Luis", street_address: "12907 conquistador loop", city: "Tampa", state: "Florida", zip_code: "34610", description: " I have a house", status: "In Progress")
   end
   describe 'User story 1' do
     it 'renders the applications attributes and pet names the application is for' do
@@ -120,4 +121,22 @@ RSpec.describe 'Application Show page' do
     # Then I do not see a section to submit my application
     expect(page).to_not have_content(".submission")
   end
+
+  # 8. Partial Matches for Pet Names
+    it "shows partial names with search results" do
+      # As a visitor
+      # When I visit an application show page
+      visit "applications/#{@app_2.id}"
+      # And I search for Pets by name
+      within '.application' do
+        fill_in "search", with: "Luc"
+        click_button("Find pet")
+      end
+      # Then I see any pet whose name PARTIALLY matches my search
+      within '.pets_found' do
+        expect(page).to have_content("Lucille Bald")
+        expect(page).to have_content("Lucy")
+        expect(page).to_not have_content("Lobster")
+      end
+    end
 end
