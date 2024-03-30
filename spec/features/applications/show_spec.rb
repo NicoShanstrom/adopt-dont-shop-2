@@ -108,4 +108,16 @@ RSpec.describe 'Application Show page' do
     # And I do not see a section to add more pets to this application
     expect(page).to_not have_css(".application")
   end
+
+  # 7. No Pets on an Application
+  it "No Pets on an Application" do
+    # As a visitor
+    # When I visit an application's show page
+    visit "/applications/#{@app_2.id}"
+    # And I have not added any pets to the application
+    expect(page).to_not have_content(@pet_1.name)
+    expect(page).to_not have_content(@pet_2.name)
+    # Then I do not see a section to submit my application
+    expect(page).to_not have_content(".submission")
+  end
 end
