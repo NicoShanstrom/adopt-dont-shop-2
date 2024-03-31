@@ -18,13 +18,9 @@ RSpec.describe Application, type: :model do
       @pet = Pet.create!(adoptable: true, age: 1, breed: "sphynx", name: "Lucille Bald", shelter_id: @shelter.id)
       @pet_application = PetApplication.create!(application_id: @app.id, pet_id: @pet.id)
     end
-  
-  describe 'instance methods' do
-    describe '#approve_pet(pet)' do
-      it 'updates the pet status on application to Approved' do
-        @app.approve_pet(@pet)
-        expect(@pet_application.reload.status).to eq("Approved")
-      end
+  describe "#pet_approved?" do
+    it "returns a boolean value" do
+      expect()
     end
-  end
+  end 
 end

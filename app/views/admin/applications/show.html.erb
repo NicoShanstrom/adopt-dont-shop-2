@@ -9,11 +9,14 @@
 
 <section class='pets'>
   <% @pets.each do |pet| %>
-    <p>Applying for:<%= pet.name %></p>
-    <% if @application.pet_applications.find_by(pet_id: pet.id)&.status == "Approved" %>
+    <p>Applying for: <%= pet.name %></p>
+    <% if @application.pet_approved? %>
       <p><%= "#{pet.name}: Approved" %></p>
+    <% elsif @pet_application.reject_pet %>
+      <p><%= "#{pet.name}: Rejected" %></p>
     <% else %>
-      <p><%=button_to "Approve application for #{pet.name}", "/admin/applications/#{ @application.id }", params: { pet_id: pet.id }, method: :patch %>
+      <%= button_to "Reject: #{pet.name}", "/admin/applications/#{@application.id}", method: :get %>
+      <%= button_to "Approve: #{pet.name}", "/admin/applications/#{@application.id}", method: :get %>
     <% end %>
   <% end %>
 </section> 
