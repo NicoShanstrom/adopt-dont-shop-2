@@ -1,0 +1,19 @@
+<h1>Admin Application Info</h1>
+<p> Name: <%= @application.name %></p>
+<p> Street address: <%= @application.street_address %></p>
+<p> City: <%= @application.city %></p>
+<p> State: <%= @application.state %></p>
+<p> Zip code: <%= @application.zip_code %></p>
+<p> Description: <%= @application.description %></p>
+<p> Status: <%= @application.status %></p>
+
+<section class='pets'>
+  <% @pets.each do |pet| %>
+    <p>Applying for:<%= pet.name %></p>
+    <% if @application.pet_applications.find_by(pet_id: pet.id)&.status == "Approved" %>
+      <p><%= "#{pet.name}: Approved" %></p>
+    <% else %>
+      <p><%=button_to "Approve application for #{pet.name}", "/admin/applications/#{ @application.id }", params: { pet_id: pet.id }, method: :patch %>
+    <% end %>
+  <% end %>
+</section> 
