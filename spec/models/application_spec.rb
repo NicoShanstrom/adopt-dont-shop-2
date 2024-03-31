@@ -12,4 +12,19 @@ RSpec.describe Application, type: :model do
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:status) }
   end
+  before(:each) do
+      @app = Application.create!(name: "Nico", street_address: "398 sand hill rd", city: "Asheville", state: "North Carolina", zip_code: "28806", description: "I have a house", status: "In Progress" )
+      @shelter = Shelter.create!(name: "Aurora shelter", city: "Aurora, CO", foster_program: false, rank: 9)
+      @pet = Pet.create!(adoptable: true, age: 1, breed: "sphynx", name: "Lucille Bald", shelter_id: @shelter.id)
+      @pet_application = PetApplication.create!(application_id: @app.id, pet_id: @pet.id)
+    end
+  
+  describe 'instance methods' do
+    describe '#approve_pet(pet)' do
+      it 'updates the pet status on application to Approved' do
+        @app.approve_pet(@pet)
+        expect(@pet_application.reload.status).to eq("Approved")
+      end
+    end
+  end
 end
