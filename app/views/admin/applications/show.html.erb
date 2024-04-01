@@ -15,8 +15,8 @@
     <% elsif @application.pet_rejected?(pet) %>
       <p><%= "#{pet.name}: Rejected" %></p>
     <% else %>
-      <%= button_to "Reject: #{pet.name}", "/admin/applications/#{@application.id}/pets/#{pet.id}/reject", method: :patch %>
-      <%= button_to "Approve: #{pet.name}", "/admin/applications/#{@application.id}/pets/#{pet.id}/approve", method: :patch %>
+      <%= button_to "Reject: #{pet.name}", "/admin/applications/#{@application.id}/pets/#{pet.id}/?status=Rejected", method: :patch %>
+      <%= button_to "Approve: #{pet.name}", "/admin/applications/#{@application.id}/pets/#{pet.id}/?status=Approved", method: :patch %>
     <% end %>
   <% end %>
 </section> 

@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Application new page" do
   # 3. Starting an Application, Form not Completed
-  it "" do
+  it "shows a flash message if form not completed" do
     # As a visitor
     # When I visit the new application page
     visit "/applications/new"
