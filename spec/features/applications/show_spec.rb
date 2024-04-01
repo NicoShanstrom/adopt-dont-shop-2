@@ -123,39 +123,38 @@ RSpec.describe 'Application Show page' do
   end
 
   # 8. Partial Matches for Pet Names
-    it "shows partial names with search results" do
-      # As a visitor
-      # When I visit an application show page
-      visit "applications/#{@app_2.id}"
-      # And I search for Pets by name
-      within '.application' do
-        fill_in "search", with: "Luc"
-        click_button("Find pet")
-      end
-      # Then I see any pet whose name PARTIALLY matches my search
-      within '.pets_found' do
-        expect(page).to have_content("Lucille Bald")
-        expect(page).to have_content("Lucy")
-        expect(page).to_not have_content("Lobster")
-      end
+  it "shows partial names with search results" do
+    # As a visitor
+    # When I visit an application show page
+    visit "applications/#{@app_2.id}"
+    # And I search for Pets by name
+    within '.application' do
+      fill_in "search", with: "Luc"
+      click_button("Find pet")
     end
+    # Then I see any pet whose name PARTIALLY matches my search
+    within '.pets_found' do
+      expect(page).to have_content("Lucille Bald")
+      expect(page).to have_content("Lucy")
+      expect(page).to_not have_content("Lobster")
+    end
+  end
 
   # 9. Case Insensitive Matches for Pet Names
-    it 'shows case insensitive matches for pet names' do
-      # As a visitor
-      # When I visit an application show page
-      # And I search for Pets by name
-      visit "applications/#{@app_2.id}"
-      within '.application' do
-        fill_in "search", with: "lUc"
-        click_button("Find pet")
-      end
-      # Then my search is case insensitive
-      within '.pets_found' do
-        expect(page).to have_content("Lucille Bald")
-        expect(page).to have_content("Lucy")
-        expect(page).to_not have_content("Lobster")
-      end
+  it 'shows case insensitive matches for pet names' do
+    # As a visitor
+    # When I visit an application show page
+    # And I search for Pets by name
+    visit "applications/#{@app_2.id}"
+    within '.application' do
+      fill_in "search", with: "lUc"
+      click_button("Find pet")
     end
-    
+    # Then my search is case insensitive
+    within '.pets_found' do
+      expect(page).to have_content("Lucille Bald")
+      expect(page).to have_content("Lucy")
+      expect(page).to_not have_content("Lobster")
+    end
+  end
 end

@@ -83,7 +83,7 @@ RSpec.describe "the pets index" do
   end
 
   # 2. Starting an Application
-  it "" do
+  it "has a link to the new application form" do
     # As a visitor
     # When I visit the pet index page
     visit "/pets"

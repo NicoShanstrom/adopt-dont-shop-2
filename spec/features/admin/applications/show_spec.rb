@@ -16,7 +16,8 @@ RSpec.describe 'Admin Application Show page' do
     
     @pet_app_1 = PetApplication.create!(application_id: @app_1.id, pet_id: @pet_2.id)
     @pet_app_2 = PetApplication.create!(application_id: @app_1.id, pet_id: @pet_3.id)
-    @pet_app_3 = PetApplication.create!(application_id: @app_2.id, pet_id: @pet_1.id)
+    @pet_app_3 = PetApplication.create!(application_id: @app_3.id, pet_id: @pet_1.id)
+    @pet_app_4 = PetApplication.create!(application_id: @app_1.id, pet_id: @pet_1.id)
   end
   # 12. Approving a Pet for Adoption
   it 'has a button to approve the application for that specific pet' do
@@ -54,7 +55,6 @@ RSpec.describe 'Admin Application Show page' do
     within '.pets' do
       expect(page).to have_content("Lobster")
       expect(page).to have_button("Reject: Lobster")
-
       # When I click that button
       click_button("Reject: Lobster")
     end
@@ -65,6 +65,31 @@ RSpec.describe 'Admin Application Show page' do
       expect(page).to_not have_button("Reject: Lobster")
       # And instead I see an indicator next to the pet that they have been rejected
       expect(page).to have_content("Lobster: Rejected")
+    end
+  end
+
+  # 14. Approved/Rejected Pets on one Application do not affect other Applications
+  it "confirms that approved/rejected doesn't affect other pet applications for the same pet" do
+    # As a visitor
+    # When there are two applications in the system for the same pet
+    # When I visit the admin application show page for one of the applications
+    visit "/admin/applications/#{@app_3.id}"
+    # And I approve or reject the pet for that application
+    within '.pets' do
+      expect(page).to have_content("Lucille Bald")
+      expect(page).to have_button("Approve: Lucille Bald")
+      # When I click that button
+      click_button("Approve: Lucille Bald")
+      expect(page).to_not have_button("Approve: Lucille Bald")
+    end
+    # When I visit the other application's admin show page
+    visit "/admin/applications/#{@app_1.id}"
+    # Then I do not see that the pet has been accepted or rejected for that application
+    within '.pets' do
+      expect(page).to have_content("Lucille Bald")
+      # And instead I see buttons to approve or reject the pet for this specific application
+      expect(page).to have_button("Approve: Lucille Bald")
+      expect(page).to have_button("Reject: Lucille Bald")
     end
   end
 end
