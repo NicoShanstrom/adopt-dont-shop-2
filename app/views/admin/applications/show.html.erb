@@ -10,13 +10,13 @@
 <section class='pets'>
   <% @pets.each do |pet| %>
     <p>Applying for: <%= pet.name %></p>
-    <% if @application.pet_approved? %>
+    <% if @application.pet_approved?(pet) %>
       <p><%= "#{pet.name}: Approved" %></p>
-    <% elsif @pet_application.reject_pet %>
+    <% elsif @application.pet_rejected?(pet) %>
       <p><%= "#{pet.name}: Rejected" %></p>
     <% else %>
-      <%= button_to "Reject: #{pet.name}", "/admin/applications/#{@application.id}", method: :get %>
-      <%= button_to "Approve: #{pet.name}", "/admin/applications/#{@application.id}", method: :get %>
+      <%= button_to "Reject: #{pet.name}", "/admin/applications/#{@application.id}/pets/#{pet.id}/reject", method: :patch %>
+      <%= button_to "Approve: #{pet.name}", "/admin/applications/#{@application.id}/pets/#{pet.id}/approve", method: :patch %>
     <% end %>
   <% end %>
 </section> 

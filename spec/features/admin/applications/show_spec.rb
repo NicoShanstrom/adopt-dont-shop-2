@@ -46,7 +46,7 @@ RSpec.describe 'Admin Application Show page' do
   end
 
   # 13. Rejecting a Pet for Adoption
-  it "" do
+  it "rejects a pet for an application" do
     # As a visitor
     # When I visit an admin application show page ('/admin/applications/:id')
     visit "/admin/applications/#{@app_1.id}"
@@ -59,7 +59,7 @@ RSpec.describe 'Admin Application Show page' do
       click_button("Reject: Lobster")
     end
     # Then I'm taken back to the admin application show page
-    expect(current_path).to eq("/admin/applications/#{@app_2.id}")
+    expect(current_path).to eq("/admin/applications/#{@app_1.id}")
     # And next to the pet that I rejected, I do not see a button to approve or reject this pet
     within '.pets' do
       expect(page).to_not have_button("Reject: Lobster")
