@@ -56,6 +56,7 @@ RSpec.describe 'Application Show page' do
     # And under the search bar I see any Pet whose name matches my search
     within '.pets_found' do
       expect(page).to have_content("Lucille Bald")
+      expect(page).to_not have_content("Lobster")
     end
   end
 
@@ -73,6 +74,7 @@ RSpec.describe 'Application Show page' do
     within '.pets_found' do
       expect(page).to have_content(@pet_1.name)
       expect(page).to have_link(@pet_1.name)
+      expect(page).to_not have_link(@pet_2.name)
       expect(page).to have_button("Adopt this Pet")
       # When I click one of these buttons
       click_button("Adopt this Pet")
@@ -103,6 +105,7 @@ RSpec.describe 'Application Show page' do
     # Then I am taken back to the application's show page
     expect(current_path).to eq("/applications/#{@app_1.id}")
     # And I see an indicator that the application is "Pending"
+    expect(page).to_not have_content("Status: In Progress")
     expect(page).to have_content("Status: Pending")
     # And I see all the pets that I want to adopt
     expect(page).to have_content(@pet_1.name)
@@ -119,7 +122,7 @@ RSpec.describe 'Application Show page' do
     expect(page).to_not have_content(@pet_1.name)
     expect(page).to_not have_content(@pet_2.name)
     # Then I do not see a section to submit my application
-    expect(page).to_not have_content(".submission")
+    expect(page).to_not have_css(".submission")
   end
 
   # 8. Partial Matches for Pet Names

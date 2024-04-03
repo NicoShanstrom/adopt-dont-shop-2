@@ -11,14 +11,16 @@
     <p><%= link_to pet.name, "/pets/#{pet.id}" %></p>
 <% end %>
 
-<section class='submission'>
-  <h2> Submit this Application</h2>
-  <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |f| %>
-    <%= f.label :description, "Why would you make a good owner for these pets?" %>
-    <%= f.text_field :description %>
-    <%= f.submit "Submit" %>
-  <% end %>
-</section>
+<% if @pets.present? %>
+  <section class='submission'>
+    <h2> Submit this Application</h2>
+    <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |f| %>
+      <%= f.label :description, "Why would you make a good owner for these pets?" %>
+      <%= f.text_field :description %>
+      <%= f.submit "Submit" %>
+    <% end %>
+  </section>
+<% end %>
 
 <% if @application.status == "In Progress" %>
   <section class='application'>
