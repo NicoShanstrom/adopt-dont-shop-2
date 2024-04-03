@@ -90,6 +90,7 @@ RSpec.describe 'Admin Application Show page' do
       # And instead I see buttons to approve or reject the pet for this specific application
       expect(page).to have_button("Approve: Lucille Bald")
       expect(page).to have_button("Reject: Lucille Bald")
+      expect(page).to_not have_content("Lucille Bald: Approved")
     end
   end
 end
